@@ -10,18 +10,18 @@
         "net.ipv6.conf.all.accept_redirects=0"
         "net.ipv6.conf.default.accept_redirects=0"
     )
-
+    
     l_ufwscf="$([ -f /etc/default/ufw ] && awk -F= '/^\s*IPT_SYSCTL=/ {print $2}' /etc/default/ufw)"
 
     f_ipv6_chk() {
         l_ipv6_disabled=""
         ! grep -Pqs -- '^\h*0\b' /sys/module/ipv6/parameters/disable && l_ipv6_disabled="yes"
-
+        
         if sysctl net.ipv6.conf.all.disable_ipv6 | grep -Pqs -- "^\h*net\.ipv6\.conf\.all\.disable_ipv6\h*=\h*1\b" && \
            sysctl net.ipv6.conf.default.disable_ipv6 | grep -Pqs -- "^\h*net\.ipv6\.conf\.default\.disable_ipv6\h*=\h*1\b"; then
             l_ipv6_disabled="yes"
         fi
-
+        
         [ -z "$l_ipv6_disabled" ] && l_ipv6_disabled="no"
     }
 
